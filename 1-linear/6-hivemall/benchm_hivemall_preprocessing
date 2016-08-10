@@ -1,0 +1,10 @@
+#!/bin/bash
+
+sized=(0.01m 0.1m 1m 10m)
+files=(test.csv)
+for s in ${sized[@]}; do files+=(train-$s.csv); done
+for f in ${files[@]}; do cat $f | sed '=' | sed 'N;s/\n/,/' | sed 's/"//g' | sed '1s/1/rowId/' > data_`echo $f | sed 's/0\./0/'`; done
+
+wget http://osmot.cs.cornell.edu/kddcup/perf/perf.src.tar.gz
+tar zxvf perf.src.tar.gz
+sudo yum install -y ld-linux.so.2

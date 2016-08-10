@@ -1,0 +1,18 @@
+#!/bin/bash
+
+alg=zrf
+sized=(0.01m 0.1m 1m 10m)
+for s in ${sized[@]}; do size+=(`echo $s | sed 's/0\./0/g'`); done
+base_dir=/path/to/benchm
+bucket_dir=s3://path/to/benchm
+
+# create hql
+hql=$alg.hql
+cat _base.hql > $hql; cat _$hql >> $hql
+#cat __base.hql > $hql; cat _$hql >> $hql # skip feature eng
+
+# exec
+for s in ${size[@]}; do hive --hivevar size=$s --hivevar dir=$bucket_dir -f $hql; done
+
+# eval AUC
+for s in ${size[@]}; do ./perf.src/perf -ROC < $base_dir/result/$alg/$s/*; done

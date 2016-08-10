@@ -19,8 +19,10 @@
 
 ##### Environment
   * EC2: m3.xlarge \* 3 + c3.2xlarge \* 3
-  * Hive: 2.1.0
+  * Hadoop: Amazon 2.7.2
   * Tez: 0.8.4
+  * Hive: 2.1.0
+  * Hivemall: 0.4.2-RC2
 
 ##### Time[sec] / AUC
 
